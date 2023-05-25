@@ -1,0 +1,34 @@
+<!--this is called the view-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coffee</title>
+</head>
+<body>
+    <h1>Coffee<a href="/coffee">!</a></h1>
+    <h2>Whats your favorite roast?</h2>
+    <ul>
+        <li><a href="/coffee/dark">Dark Roast</a></li>
+        <li><a href="/coffee/medium">Medium Roast</a></li>
+        <li><a href="/coffee/light">Light Roast</a></li>
+    </ul>
+    <h2 th:if="coffees">
+        <p>You selected [[${roast}]]</p>
+        <ul>
+            <li th:each="coffee : ${coffees}"></li>
+            <p>[[${coffee.brand}]] - [[${coffee.origin}]] - [[${coffee.roast}]]</p>
+        </ul>
+    </h2>
+    <div>
+        <h2>Sign up for pur newsletter!</h2>
+        <form action="/coffee" method="post">
+            <label for="email">Your email: </label>
+            <input type="email" name="email" id="email">
+            <button type="submit">Sign Up</button>
+        </form>
+        <h3 th:if="${email}" >Thanks for signing up!<br>We will send the newsletter to [[${email}]]</h3>
+
+    </div>
+</body>
+</html>
