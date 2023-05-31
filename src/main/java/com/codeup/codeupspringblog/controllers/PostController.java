@@ -55,7 +55,8 @@ public class PostController {
     @PostMapping("/posts/comment")
     public String submitComment(@RequestParam(name = "content") String content, @RequestParam(name = "postId") long postId){
         Post post = postsDao.findById(postId);
-        Comment comment = new Comment(content, post);
+        User user = usersDao.findUserById(1L);
+        Comment comment = new Comment(content, post, user);
         commentsDao.save(comment);
         return "redirect:/posts";
     }
