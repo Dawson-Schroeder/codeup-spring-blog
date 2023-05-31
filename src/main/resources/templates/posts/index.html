@@ -7,12 +7,19 @@
 <body>
 <nav th:include="/partials/navbar :: navbar"></nav>
 
-<p><a href="/posts/create" >Create Post</a></p>
 <h1>Current Posts:</h1>
 
 <div class="card" th:each="post : ${allPosts}">
     <a th:href="@{|/posts/${post.id}|}"><h2 th:text="${post.title}">Default Title</h2></a>
     <p th:text="${post.body}">Default Body</p>
+    <div th:if="${post.comments.size()>0}">
+        <h3>Comments</h3>
+        <ul>
+            <li th:each="comment : ${post.comments}">
+                <p th:text="${comment.content}"></p>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <br><br><br>

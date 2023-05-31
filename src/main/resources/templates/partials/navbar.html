@@ -1,6 +1,23 @@
 
-<nav th:fragment="navbar">
-  <a th:href="@{/}">Home</a>
-  <a th:href="@{/roll-dice}">Dice Game</a>
-  <a th:href="@{/posts}">View Posts</a>
+<nav th:fragment="navbar" style="
+  padding: 5px;">
+  <div class="row navbar-row" style="
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding:5px;
+  column-gap:20px;">
+    <div class="column">
+      <a th:href="@{/}">Home</a>
+    </div>
+    <div class="column">
+      <a th:href="@{/roll-dice}">Dice Game</a>
+    </div>
+    <div class="column">
+      <a th:href="@{/posts}">View Posts</a>
+    </div>
+    <div class="column">
+      <a th:href="@{/posts/create}">Create Post</a>
+    </div>
+  </div>
 </nav>
