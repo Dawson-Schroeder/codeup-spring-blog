@@ -2,6 +2,7 @@ package com.codeup.codeupspringblog.controllers;
 
 import com.codeup.codeupspringblog.models.User;
 import com.codeup.codeupspringblog.repositories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,5 +34,11 @@ public class UserController {
         User user = usersDao.findUserById(id);
         model.addAttribute("userPosts", user.getPosts());
         return "/users_posts";
+    }
+
+    @GetMapping("/profile")
+    public String showProfile(){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return "profile";
     }
 }

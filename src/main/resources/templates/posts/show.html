@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="partials/head :: head">
-    <meta charset="UTF-8">
-    <title>One Post</title>
-</head>
+<head th:replace="partials/head :: head"></head>
 <body>
-<nav th:include="partials/navbar :: navbar"></nav>
-
-    <h1>One Post:</h1><br>
-    <h2 th:text="${post.title}"></h2>
-    <h2 th:text="${post.body}"></h2>
-    <p th:text="${post.user.email}"></p>
-
-    <br><br><br><br>
-
-    <form action="/posts/comment" method="post">
-        <label for="content">Comment:</label>
-        <textarea name="content" id="content" rows="7" cols="14"></textarea>
-        <input type="hidden" name="postId" th:value="${post.id}">
-        <button>Submit</button>
-    </form>
-
-
+<div class="page-wrapper">
+<header th:include="partials/navbar :: navbar" class="container"></header>
+    <div class="container">
+        <div class="row justify-center grow">
+            <h1>One Post:</h1>
+        </div>
+        <div class="row justify-center grow">
+            <ul>
+                <li><h2 th:text="${post.title}"></h2></li>
+                <li><h2 th:text="${post.body}"></h2></li>
+                <li><p th:text="${post.user.email}"></p></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row justify-center">
+        <form action="/posts/comment" method="post">
+            <label for="content">Comment:</label>
+            <textarea name="content" id="content" rows="7" cols="14"></textarea>
+            <input type="hidden" name="postId" th:value="${post.id}">
+            <button class="btn primary">Submit</button>
+        </form>
+    </div>
 
 <footer th:replace="partials/footer" :: footer></footer>
+</div>
 </body>
 </html>

@@ -1,23 +1,35 @@
 
-<nav th:fragment="navbar" style="
-  padding: 5px;">
-  <div class="row navbar-row" style="
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  padding:5px;
-  column-gap:20px;">
-    <div class="column">
-      <a th:href="@{/}">Home</a>
+<header th:fragment="navbar" class="container">
+    <div class="row grow">
+        <div class="column shrink justify-center">
+            <img src="/img/noun-ghost-1333267.png" alt="ghost_img" class="seal">
+<!--            <img src="/img/noun-seal-2175744.png" alt="seal_img" class="seal">-->
+        </div>
+        <div class="column align-right">
+            <nav>
+                <ul>
+                    <li>
+                        <a th:href="@{/}">Home</a>
+                    </li>
+<!--                    <li>-->
+<!--                        <a th:href="@{/roll-dice}">Dice Game</a>-->
+<!--                    </li>-->
+                    <li>
+                        <a href="/posts">Posts</a>
+                        <ul>
+                            <li>
+                                <a th:href="@{/posts}">View Posts</a>
+                            </li>
+                            <li>
+                                <a href="#">My Posts</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/posts/create}">Create Post</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
-    <div class="column">
-      <a th:href="@{/roll-dice}">Dice Game</a>
-    </div>
-    <div class="column">
-      <a th:href="@{/posts}">View Posts</a>
-    </div>
-    <div class="column">
-      <a th:href="@{/posts/create}">Create Post</a>
-    </div>
-  </div>
-</nav>
+</header>

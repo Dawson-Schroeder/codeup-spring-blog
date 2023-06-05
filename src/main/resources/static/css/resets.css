@@ -1,76 +1,38 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-}
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
-html, body {
-    min-height: 100%;
-}
-
-body {
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-}
-
-/*ol, ul {*/
-/*    list-style: none;*/
-/*}*/
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-img, picture, video, canvas, svg {
-    display: block;
+img {
     max-width: 100%;
 }
-
-input, button, textarea, select {
-    font: inherit;
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #fff;
+}
+ul {
+    list-style: none;
+    padding: unset;
+}
+li {
+    list-style: none;
 }
 
-p, h1, h2, h3, h4, h5, h6{
-    overflow-wrap: break-word;
+fieldset {
+    display: unset;
+    margin-inline-start: unset;
+    margin-inline-end: unset;
+    padding-block-start: unset;
+    padding-inline-start: unset;
+    padding-inline-end: unset;
+    padding-block-end: unset;
+    min-inline-size: unset;
+    border-width: unset;
+    border-style: unset;
+    border-color: unset;
+    border-image: unset;
 }
-
-/*#root, #__next {*/
-/*    isolation: isolate;*/
-/*}*/
-
-:link, :visited {
-    text-decoration: none;
-}
-
-a, a:visited {
-    background-color: transparent;
-    text-decoration: none;
-    color: unset;
-}
-
-textarea {
-    white-space: revert;
-}
-
-::placeholder {
-    color: inherit;
-    font: inherit;
-}
-
-button {
-    cursor: pointer;
-    border: unset;
-}
-
-input {
-    outline: unset;
-}
-
-/*body {*/
-/*    font-family: Baskerville, serif;*/
-/*    background-color: rgba(22, 33, 22, 0.81);*/
-/*    color: antiquewhite;*/
-/*}*/

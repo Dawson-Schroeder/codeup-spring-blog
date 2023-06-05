@@ -12,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class PostController {
@@ -50,6 +47,7 @@ public class PostController {
     @GetMapping("/posts")
     public String allPosts(Model model){
         List<Post> allPosts = postsDao.findAll();
+        Collections.reverse(allPosts);
         model.addAttribute("allPosts", allPosts);
         return "posts/index";
     }
@@ -62,33 +60,57 @@ public class PostController {
         return "posts/show";
     }
 
+    @GetMapping("/posts/{id}/edit")
+    public String editForm(@PathVariable long id, Model model) {
+        Post post = postsDao.findById(id);
+        model.addAttribute("post", post);
+        return "posts/create";
+    }
+    @PostMapping("/posts/{id}/edit")
+    public String submitEdit(@PathVariable long id, @ModelAttribute Post post){
+        User user = usersDao.findUserById(1L);
+        post.setUser(user);
+        post.setId(id);
+        postsDao.save(post);
+        return "redirect:/posts/" + id;
+    }
+
     @GetMapping("/posts/create")
-    public String createForm(){
+    public String createForm(Model model){
+        model.addAttribute("post", new Post());
         return "/posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String submitForm(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body, @RequestParam(name="categories") String categories){
+    public String submitForm(@ModelAttribute Post post){
         User user = usersDao.findUserById(1L);
-        Post post = new Post(title, body, user);
-        Set<Category> categorySet = makeCategorySet(categories);
-        if (categorySet.size() > 0){
-            List<Category> categoriesToAdd = new ArrayList<>();
-            for(Category category : categorySet){
-                Category categoryFromDb = categoriesDao.findCategoryByName(category.getName());
-                if(categoryFromDb == null){
-                    categoriesToAdd.add(category);
-                } else {
-                    categoriesToAdd.add(categoryFromDb);
-                }
-            }
-            categorySet.clear();
-            categorySet.addAll(categoriesToAdd);
-            post.setCategories(categorySet);
-        }
+        post.setUser(user);
         postsDao.save(post);
         return "redirect:/posts";
     }
+
+//    @PostMapping("/posts/create")
+//    public String submitForm(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body, @RequestParam(name="categories") String categories){
+//        User user = usersDao.findUserById(1L);
+//        Post post = new Post(title, body, user);
+//        Set<Category> categorySet = makeCategorySet(categories);
+//        if (categorySet.size() > 0){
+//            List<Category> categoriesToAdd = new ArrayList<>();
+//            for(Category category : categorySet){
+//                Category categoryFromDb = categoriesDao.findCategoryByName(category.getName());
+//                if(categoryFromDb == null){
+//                    categoriesToAdd.add(category);
+//                } else {
+//                    categoriesToAdd.add(categoryFromDb);
+//                }
+//            }
+//            categorySet.clear();
+//            categorySet.addAll(categoriesToAdd);
+//            post.setCategories(categorySet);
+//        }
+//        postsDao.save(post);
+//        return "redirect:/posts";
+//    }
 
     @PostMapping("/posts/comment")
     public String submitComment(@RequestParam(name = "content") String content, @RequestParam(name = "postId") long postId){

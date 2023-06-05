@@ -1,8 +1,10 @@
 
 <head th:fragment="head">
+
+  <meta charset="UTF-8">
   <title th:text="${param.title}" >Title</title>
-  <link rel="stylesheet" href="/css/resets.css">
-  <link rel="stylesheet" href="/css/layout.css">
-  <link rel="stylesheet" href="/css/spring_blog.css">
+  <link rel="stylesheet" th:href="@{/css/resets.css}"/>
+  <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+  <link rel="stylesheet" th:href="@{/css/spring_blog.css}"/>
 
 </head>
