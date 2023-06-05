@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="partials/head :: head"></head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="partials/head :: head ('User Profile')"></head>
 <body>
 <div class="page-wrapper">
   <header th:include="partials/navbar :: navbar" class="container"></header>
   <div class="container justify-center grow">
     <div class="row justify-center">
       <div class="column shrink">
-        <h1>Your Profile:</h1>
+        <h3>Welcome, <span sec:authentication="principal.username"></span></h3>
+        <h1>Your profile</h1>
+        <form th:action="@{/profile}" th:method="post">
+          <label for="email">Email:</label>
+          <input type="email" name="email" id="email" th:value="${user.email}">
+          <input type="submit" value="Change">
+        </form>
       </div>
     </div>
   </div>

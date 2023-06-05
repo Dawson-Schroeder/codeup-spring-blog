@@ -1,13 +1,12 @@
 package com.codeup.codeupspringblog.controllers;
 
-import com.codeup.codeupspringblog.models.Category;
 import com.codeup.codeupspringblog.models.Comment;
+import com.codeup.codeupspringblog.models.Post;
 import com.codeup.codeupspringblog.models.User;
-import com.codeup.codeupspringblog.repositories.CategoryRepository;
 import com.codeup.codeupspringblog.repositories.CommentRepository;
 import com.codeup.codeupspringblog.repositories.PostRepository;
-import com.codeup.codeupspringblog.models.Post;
 import com.codeup.codeupspringblog.repositories.UserRepository;
+import com.codeup.codeupspringblog.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,32 +16,32 @@ import java.util.*;
 @Controller
 public class PostController {
 
-    private final PostRepository postsDao;
-    private final UserRepository usersDao;
-    private final CommentRepository commentsDao;
-    private final CategoryRepository categoriesDao;
+    private PostRepository postsDao;
+    private UserRepository usersDao;
+    private CommentRepository commentsDao;
+    private final EmailService emailService;
 
-    public PostController(PostRepository postsDao, UserRepository usersDao, CommentRepository commentsDao, CategoryRepository categoriesDao){
+    public PostController(PostRepository postsDao, UserRepository usersDao, CommentRepository commentsDao, EmailService emailService) {
         this.postsDao = postsDao;
         this.usersDao = usersDao;
         this.commentsDao = commentsDao;
-        this.categoriesDao = categoriesDao;
+        this.emailService = emailService;
     }
 
-    public Set<Category> makeCategorySet(String categriesCsl){
-//        create empty list of tag objects
-        Set<Category> categoryObjects = new HashSet<>();
-//        if user didnt enter anything return an empty set
-        if (categriesCsl.equals("")){
-            return categoryObjects;
-        }
-//        Create an array of strings and loop over it
-        for (String category : categriesCsl.split(",")){
-            Category categoryObject = new Category(category.trim());
-            categoryObjects.add(categoryObject);
-        }
-        return categoryObjects;
-    }
+//    public Set<Category> makeCategorySet(String categriesCsl){
+////        create empty list of tag objects
+//        Set<Category> categoryObjects = new HashSet<>();
+////        if user didnt enter anything return an empty set
+//        if (categriesCsl.equals("")){
+//            return categoryObjects;
+//        }
+////        Create an array of strings and loop over it
+//        for (String category : categriesCsl.split(",")){
+//            Category categoryObject = new Category(category.trim());
+//            categoryObjects.add(categoryObject);
+//        }
+//        return categoryObjects;
+//    }
 
     @GetMapping("/posts")
     public String allPosts(Model model){
@@ -52,11 +51,9 @@ public class PostController {
         return "posts/index";
     }
     @GetMapping("/posts/{id}")
-    public String individualPost(@PathVariable long id, Model model){
+    public String individualPost(@PathVariable long id, Model model) {
         Post post = postsDao.findById(id);
-        User user = usersDao.findUserById(post.getUser().getId());
         model.addAttribute("post", post);
-        model.addAttribute("user", user);
         return "posts/show";
     }
 
@@ -82,10 +79,11 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String submitForm(@ModelAttribute Post post){
+    public String submitForm(@ModelAttribute Post post) {
         User user = usersDao.findUserById(1L);
         post.setUser(user);
         postsDao.save(post);
+        emailService.prepareAndSend(post, "A new post has been POSTED", "The message would go here, and be much cooler if I wanted.", "jason.merrell@codeup.com");
         return "redirect:/posts";
     }
 
